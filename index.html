@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Test Website</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      text-align: center;
+      padding-top: 100px;
+      background-color: #f5f5f5;
+    }
+    h1 {
+      margin-bottom: 40px;
+    }
+    button {
+      padding: 15px 30px;
+      font-size: 16px;
+      margin: 10px;
+      cursor: pointer;
+      border: none;
+      border-radius: 5px;
+      background-color: #4CAF50;
+      color: white;
+    }
+    button:hover {
+      background-color: #45a049;
+    }
+  </style>
+</head>
+<body>
+<script>
+  var clevertap = { event: [], profile: [], account: [], onUserLogin: [], notifications: [], privacy: [] };
+        // replace with the CLEVERTAP_ACCOUNT_ID with the actual ACCOUNT ID value from your Dashboard -> Settings page
+        clevertap.account.push({ "id": "468-W87-546Z"  },"eu1");
+        clevertap.enablePersonalization = true;
+      
+
+
+        clevertap.privacy.push({ optOut: false }); //set the flag to true, if the user of the device opts out of sharing their data
+        clevertap.privacy.push({ useIP: true }); //set the flag to true, if the user agrees to share their IP data
+        (function () {
+            var wzrk = document.createElement('script');
+            wzrk.type = 'text/javascript';
+            wzrk.async = true;
+            wzrk.src = 'https://d2r1yp2w7bby2u.cloudfront.net/js/clevertap.min.js'; 
+            var s = document.getElementsByTagName('script')[0];
+            s.parentNode.insertBefore(wzrk, s);
+        })();
+</script>
+
+
+  <h1>Welcome to My Test Website</h1>
+
+  <button onclick="alert('Button 1 clicked!')">Button 1</button>
+  <button onclick="alert('Button 2 clicked!')">Button 2</button>
+
+</body>
+</html>
