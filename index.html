@@ -1,10 +1,13 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Test one</title>
 
+  <!-- ===================== -->
+  <!-- Page Styling -->
+  <!-- ===================== -->
   <style>
     body {
       font-family: Arial, sans-serif;
@@ -12,9 +15,7 @@
       padding-top: 100px;
       background-color: #f5f5f5;
     }
-    h1 {
-      margin-bottom: 40px;
-    }
+
     button {
       padding: 15px 30px;
       font-size: 16px;
@@ -25,12 +26,38 @@
       background-color: #4CAF50;
       color: white;
     }
+
     button:hover {
       background-color: #45a049;
     }
+
+    /* ===================== */
+    /* Optional Inbox Styling Overrides */
+    /* ===================== */
+
+    /* Change font inside inbox */
+    ct-web-inbox {
+      font-family: Arial, sans-serif;
+
+      /* Optional size overrides */
+      --inbox-width: 392px;
+      --inbox-height: 546px;
+    }
+
+    /* Example: force inbox to open on right side */
+    /*
+    ct-web-inbox {
+      --inbox-top: 0px;
+      --inbox-right: 0px;
+      --inbox-left: unset;
+      --inbox-bottom: unset;
+    }
+    */
   </style>
 
-  <!-- CleverTap SDK -->
+  <!-- ===================== -->
+  <!-- CleverTap Web SDK Init -->
+  <!-- ===================== -->
   <script>
     var clevertap = {
       event: [],
@@ -41,23 +68,26 @@
       privacy: []
     };
 
-    // Account ID + region
+    // Account ID and region
     clevertap.account.push({
-      id: "468-W87-546Z",
+      id: "ZWW-WWW-WWRZ",
       region: "eu1"
     });
 
+    // Enable personalization
     clevertap.enablePersonalization = true;
 
+    // Privacy settings
     clevertap.privacy.push({ optOut: false });
     clevertap.privacy.push({ useIP: true });
 
+    // Load CleverTap SDK
     (function () {
-      var wzrk = document.createElement('script');
-      wzrk.type = 'text/javascript';
+      var wzrk = document.createElement("script");
+      wzrk.type = "text/javascript";
       wzrk.async = true;
-      wzrk.src = 'https://d2r1yp2w7bby2u.cloudfront.net/js/clevertap.min.js';
-      var s = document.getElementsByTagName('script')[0];
+      wzrk.src = "https://d2r1yp2w7bby2u.cloudfront.net/js/clevertap.min.js";
+      var s = document.getElementsByTagName("script")[0];
       s.parentNode.insertBefore(wzrk, s);
     })();
   </script>
@@ -67,22 +97,82 @@
 
   <h1>Welcome to My Test Website</h1>
 
+  <!-- ===================== -->
+  <!-- Event Tracking Buttons -->
+  <!-- ===================== -->
   <button onclick="handleButton1Click()">Shreyastwo</button>
   <button onclick="handleButton2Click()">Button 2</button>
 
+  <!-- ===================== -->
+  <!-- Web Inbox Selector Element -->
+  <!-- IMPORTANT:
+       - This element ID is REQUIRED
+       - CleverTap uses it to toggle the inbox
+       ===================== -->
+  <button id="ctInboxSelector">Inbox</button>
+
+  <!-- Optional: Inbox Counts -->
+  <div>
+    Total: <span id="inboxTotal">0</span>,
+    Unread: <span id="inboxUnread">0</span>
+  </div>
+
+  <!-- ===================== -->
+  <!-- CleverTap Logic -->
+  <!-- ===================== -->
   <script>
+    /* ===========================
+       USER LOGIN (Hard-coded)
+       =========================== */
+    clevertap.onUserLogin.push({
+      Site: {
+        Identity: "shrey.nike@clevertap.com",
+        Email: "shrey.nike@clevertap.com",
+        Name: "Shrey Nike"
+      }
+    });
+
+    /* ===========================
+       Button Event Tracking
+       =========================== */
     function handleButton1Click() {
       clevertap.event.push("Button Clicked", {
-        "Button Name": "c0da51cfe6e0bf1678e64b6e27f8aa79",
+        "Button Name": "Test Place Holder",
         "Page": "Home"
       });
-
       alert("Button 1 clicked!");
     }
 
     function handleButton2Click() {
       alert("Button 2 clicked!");
     }
+
+    /* ===========================
+       Web Inbox Configuration
+       =========================== */
+
+    // Register the Inbox selector element ID
+    clevertap.notifications.push({
+      inbox: {
+        selector: "#ctInboxSelector"
+      }
+    });
+
+    /* ===========================
+       Inbox Counts (Optional)
+       =========================== */
+    function updateInboxCounts() {
+      document.getElementById("inboxTotal").textContent =
+        clevertap.getInboxMessageCount();
+
+      document.getElementById("inboxUnread").textContent =
+        clevertap.getInboxMessageUnreadCount();
+    }
+
+    // Update counts when page loads
+    document.addEventListener("DOMContentLoaded", function () {
+      updateInboxCounts();
+    });
   </script>
 
 </body>
