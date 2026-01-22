@@ -121,9 +121,7 @@
   </main>
 
   <script>
-    /* -----------------------------
-       Hard-coded User Login
-    ------------------------------*/
+   
     clevertap.onUserLogin.push({
       Site: {
         Identity: "shrey.nike@clevertap.com",
@@ -134,9 +132,9 @@
       }
     });
 
-    /* -----------------------------
+    /*
        Initialize Web Inbox
-    ------------------------------*/
+   */
     clevertap.notifications.push({
       "inbox": {
         "ctaText": "View",
@@ -144,9 +142,9 @@
       }
     });
 
-    /* -----------------------------
+    /*
        Button Click Event
-    ------------------------------*/
+    */
     function raiseButtonEvent() {
       clevertap.event.push("Button Clicked", {
         "Button Type": "Primary",
