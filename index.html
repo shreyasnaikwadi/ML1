@@ -2,41 +2,10 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Test with Web Inbox</title>
+  <title>CleverTap Web Inbox Demo</title>
 
-  <style>
-    body {
-      font-family: Arial, sans-serif;
-      text-align: center;
-      padding-top: 100px;
-      background-color: #f5f5f5;
-    }
-
-    h1 {
-      margin-bottom: 40px;
-    }
-
-    button {
-      padding: 15px 30px;
-      font-size: 16px;
-      margin: 10px;
-      cursor: pointer;
-      border: none;
-      border-radius: 5px;
-      background-color: #4CAF50;
-      color: white;
-    }
-
-    button:hover {
-      background-color: #45a049;
-    }
-  </style>
-
-  <!-- ===================== -->
-  <!-- CleverTap Web SDK -->
-  <!-- ===================== -->
-  <script>
+  <!-- CleverTap Web SDK (EU Region) -->
+  <script type="text/javascript">
     var clevertap = {
       event: [],
       profile: [],
@@ -46,107 +15,146 @@
       privacy: []
     };
 
-    clevertap.account.push({
-      id: "ZWW-WWW-WWRZ",
-      region: "eu1"
-    });
-
-    clevertap.enablePersonalization = true;
-    clevertap.privacy.push({ optOut: false });
-    clevertap.privacy.push({ useIP: true });
+    clevertap.account.push({ id: "ZWW-WWW-WWRZ", region: "eu1" });
 
     (function () {
       var wzrk = document.createElement("script");
+      wzrk.type = "text/javascript";
       wzrk.async = true;
       wzrk.src = "https://d2r1yp2w7bby2u.cloudfront.net/js/clevertap.min.js";
       var s = document.getElementsByTagName("script")[0];
       s.parentNode.insertBefore(wzrk, s);
     })();
   </script>
+
+  <style>
+    body {
+      margin: 0;
+      font-family: "Inter", system-ui, sans-serif;
+      background: linear-gradient(135deg, #f6f9fc, #eef2f7);
+      height: 100vh;
+    }
+
+    header {
+      background: #1f2937;
+      color: #ffffff;
+      padding: 16px 24px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    header h2 {
+      margin: 0;
+      font-weight: 500;
+    }
+
+    /* Bell Icon */
+    #ctInbox {
+      cursor: pointer;
+      font-size: 22px;
+      background: #374151;
+      padding: 10px 14px;
+      border-radius: 50%;
+      transition: background 0.2s ease;
+    }
+
+    #ctInbox:hover {
+      background: #4b5563;
+    }
+
+    main {
+      padding: 40px;
+      text-align: center;
+    }
+
+    .card {
+      background: #ffffff;
+      max-width: 420px;
+      margin: auto;
+      padding: 30px;
+      border-radius: 12px;
+      box-shadow: 0 10px 25px rgba(0,0,0,0.08);
+    }
+
+    .card h3 {
+      margin-top: 0;
+      color: #111827;
+    }
+
+    button {
+      background: #6366f1;
+      border: none;
+      color: #ffffff;
+      padding: 14px 20px;
+      border-radius: 8px;
+      font-size: 15px;
+      cursor: pointer;
+      transition: background 0.2s ease;
+    }
+
+    button:hover {
+      background: #4f46e5;
+    }
+
+    /* Inbox Font Customization */
+    ct-web-inbox {
+      font-family: monospace;
+    }
+  </style>
 </head>
 
 <body>
 
-  <h1>Welcome to My Test Website</h1>
+  <header>
+    <h2>CleverTap Web Inbox</h2>
+    <!-- Inbox Toggle Element -->
+    <div id="ctInbox" title="Open Inbox">🔔</div>
+  </header>
 
-  <!-- ===================== -->
-  <!-- Event Buttons -->
-  <!-- ===================== -->
-  <button onclick="handleButton1Click()">Button1</button>
-  <button onclick="handleButton2Click()">Button</button>
-
-  <!-- ===================== -->
-  <!-- Inbox Button -->
-  <!-- ===================== -->
-  <button id="ctInbox">Inbox</button>
-
-  <!-- Optional: Inbox Counts -->
-  <div>
-    Total: <span id="totalCount">0</span> |
-    Unread: <span id="unreadCount">0</span>
-  </div>
+  <main>
+    <div class="card">
+      <h3>Demo Actions</h3>
+      <p>Click the button below to raise a CleverTap event.</p>
+      <button onclick="raiseButtonEvent()">Click Me</button>
+    </div>
+  </main>
 
   <script>
-    /* ===========================
-       User Login
-       =========================== */
+    /* -----------------------------
+       Hard-coded User Login
+    ------------------------------*/
     clevertap.onUserLogin.push({
       Site: {
         Identity: "shrey.nike@clevertap.com",
         Email: "shrey.nike@clevertap.com",
-        Name: "Shrey Nike"
+        Name: "Shrey Nike",
+        Plan: "Demo Web Inbox",
+        UserType: "Internal"
       }
     });
 
-    /* ===========================
-       Button Event Handlers
-       =========================== */
-    function handleButton1Click() {
-      clevertap.event.push("Button Clicked", {
-        "Button Name": "Shreyastwo",
-        "Page": "Home"
-      });
-      alert("Button 1 clicked!");
-    }
-
-    function handleButton2Click() {
-      clevertap.event.push("Button Clicked", {
-        "Button Name": "Button 2",
-        "Page": "Home"
-      });
-      alert("Button 2 clicked!");
-    }
-
-    /* ===========================
-       Default Web Inbox Setup
-       =========================== */
+    /* -----------------------------
+       Initialize Web Inbox
+    ------------------------------*/
     clevertap.notifications.push({
-      inbox: {
-        selector: "#ctInbox"
+      "inbox": {
+        "ctaText": "View",
+        "selector": "#ctInbox"
       }
     });
 
-    /* ===========================
-       Inbox Count Update Logic
-       =========================== */
-    function updateCounts() {
-      document.getElementById("totalCount").innerText =
-        clevertap.getInboxMessageCount();
-      document.getElementById("unreadCount").innerText =
-        clevertap.getInboxMessageUnreadCount();
+    /* -----------------------------
+       Button Click Event
+    ------------------------------*/
+    function raiseButtonEvent() {
+      clevertap.event.push("Button Clicked", {
+        "Button Type": "Primary",
+        "Button Work": "Included",
+        "Page": "Web Inbox Demo"
+      });
+      alert("Button Clicked event raised 🚀");
     }
-
-    // Initial load
-    document.addEventListener("DOMContentLoaded", function () {
-      updateCounts();
-    });
-
-    // Listen for inbox updates (open/read/click)
-    clevertap.notifications.push({
-      inboxListener: function () {
-        updateCounts();
-      }
-    });
   </script>
 
 </body>
